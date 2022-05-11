@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>로그인 페이지</title>
+
+    <!-- Bulma CSS 링크 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f5548c51dd.js" crossorigin="anonymous"></script>
+    <style>
+        .wrap {
+            width: 100%;
+            margin: auto;
+            text-align: center;
+        }
+
+        .title {
+            font-family: 'Dongle', sans-serif;
+            font-size: 7em;
+
+        }
+        .subtitle {
+            font-family: 'Dongle', sans-serif;
+            font-size: 2em;
+
+        }
+
+        .btn-box > button {
+            margin-left: 10px;
+        }
+
+        body {
+            background-color: #F1EFEC;
+            min-height: 100vh;
+        }
+
+        .button {
+            background-color: #4F8AFF;
+            border-color: transparent;
+            color: #fff !important;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <!--    배너 부분-->
+    <section class="hero is-white">
+        <div class="hero-body has-text-centered" style="padding-bottom:1rem;margin:auto;">
+            <h1 class="title"> 야무진 한끼</h1>
+            <h3 class="subtitle">서울 맛집 찾기</h3>
+        </div>
+    </section>
+    <!--    버튼 부분-->
+    <section class="section">
+        <div class="container">
+            <div class="box" style="max-width: 480px;margin:auto">
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <div class="field has-addons">
+                                <div class="control has-icons-left" style="width:100%">
+                                    <input id="input-username" class="input" type="text" placeholder="아이디">
+                                    <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <input id="input-password" class="input" type="password" placeholder="비밀번호">
+                                    <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="div-sign-in-or-up" class="has-text-centered">
+                            <nav class="level is-mobile">
+                                <button class="level-item button" onclick="sign_in()">로그인</button>
+                            </nav>
+                            <hr>
+                            <h4 class="mb-3">가입하시면 맛집 찾아드려요</h4>
+                            <nav class="level is-mobile">
+                                <button class="level-item button" onclick="window.location.href='/register'">회원 가입하기</button>
+                            </nav>
+                        </div>
+                </article>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>
