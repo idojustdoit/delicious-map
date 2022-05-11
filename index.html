@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <title>메뉴선택 페이지</title>
+
 
     <!-- Bulma CSS 링크 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
@@ -15,19 +17,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@700&display=swap" rel="stylesheet">
 
-    <!-- naver map -->
-    <script type="text/javascript"
-            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=jg6jcinij1"></script>
-    <script src=" https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <style>
         .title {
             font-family: 'Dongle', sans-serif;
+            color: black;
         }
 
         .msg {
             font-family: 'Dongle', sans-serif;
             font-size: 3em;
+            color: black;
         }
 
         .wrap > button {
@@ -45,47 +45,50 @@
             text-align: center;
         }
 
-        .menu-box {
-            width: 60vw;
-            background-color: blueviolet;
+        .card-box {
+            display: flex;
+            /*justify-content: space-between;*/
             margin: auto;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .map-box {
-            background-color: gray;
-            margin: auto;
+        .card {
+            width: 190px;
+            height: 300px;
+            margin-top: 40px;
+            margin-left: 20px;
         }
 
-        #map {
-            width: 700px;
-            height: 600px;
-            background-color: blue;
-        }
     </style>
     <script>
-        $(document).ready(function () {
-            let map = new naver.maps.Map('map', {
-                center: new naver.maps.LatLng(37.4981125, 127.0379399),
-                zoom: 10,
-                zoomControl: true,
-                zoomControlOptions: {
-                    style: naver.maps.ZoomControlStyle.SMALL,
-                    position: naver.maps.Position.TOP_RIGHT
-                }
-        });
-            let marker = new naver.maps.Marker({
-                position: new naver.maps.LatLng(37.4981125, 127.0379399),
-                map: map,
-            });
-             let infowindow = new naver.maps.InfoWindow({
-                content: `<div style="width: 50px;height: 20px;text-align: center"><h5>맛집</h5></div>`,
-            });
-            naver.maps.Event.addListener(marker, "click", function () {
-                console.log(infowindow.getMap());
-                if (infowindow.getMap()) {
-                    infowindow.close();
-                } else {
-                    infowindow.open(map, marker);
+        $(function () {
+            $.ajax({
+                type: 'get',
+                url: 'seoul.json',
+                dataType: 'json',
+                success: function (data) {
+                    let seoul_list = data.DATA;
+                    for (let i = 0; i < seoul_list.length; i++) {
+                        let seoul = seoul_list[i];
+                        let shop = seoul["post_sj"];
+                        let address = seoul["new_address"];
+                        let time = seoul["cmmn_use_time"];
+                        let page = seoul["cmmn_hmpg_url"];
+
+                        let temp_html = `<div class="card">
+                                            <div class="card-content">
+                                                <div class="media-content">
+                                                    <p class="title is-2" id="shop">${shop}</p>
+                                                    <p class=" is-4">주소</p>
+                                                    <p class="subtitle is-6" id="address">${address}</p>
+                                                </div>
+                                                <br>
+                                                <button class="button is-success" href="${page}">맛집 페이지</button>
+                                            </div>
+                                        </div>`
+                        $('#card-box').append(temp_html)
+                    }
                 }
             });
         });
@@ -110,17 +113,12 @@
 </div>
 <section class="section">
     <div class="container">
-        <div class="msg"><span id="name" , style="font-weight:bolder">냠냠</span> <span style="font-weight:lighter">님의 주변 맛집을 찾아보세요 👀</span>
+        <div class="msg"><span id="name">냠냠</span> 님의 주변 맛집을 찾아보세요 👀
         </div>
-        <h2 class="location-msg">
-            현재 위치는 <span id="location">서울시 서대문구</span> 입니다
-        </h2>
     </div>
 </section>
-<div class="menu-box">menu box</div>
-<div class="map-box">
-    <section id="map"></section>
-    <section id="map-info">info</section>
+<div class="card-box" id="card-box">
+
 </div>
 </body>
 </html>
