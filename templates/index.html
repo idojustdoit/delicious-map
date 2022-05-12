@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <title>메뉴선택 페이지</title>
+
+
+    <!-- Bulma CSS 링크 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/f5548c51dd.js" crossorigin="anonymous"></script>
+
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@700&display=swap" rel="stylesheet">
+
+
+    <style>
+        .title {
+            font-family: 'Dongle', sans-serif;
+            color: black;
+        }
+
+        .msg {
+            font-family: 'Dongle', sans-serif;
+            font-size: 3em;
+            color: black;
+        }
+
+        .wrap > button {
+            margin-left: 80%;
+        }
+
+        .section {
+            width: 600px;
+            max-width: 100vw;
+            margin: auto;
+        }
+
+        .container {
+            margin: auto;
+            text-align: center;
+        }
+
+        .card-box {
+            display: flex;
+            /*justify-content: space-between;*/
+            margin: auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            width: 190px;
+            height: 300px;
+            margin-top: 40px;
+            margin-left: 20px;
+
+        }
+
+        #shop {
+            width 120px;
+            height: 50px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+        }
+
+        .dropdown {
+            margin-top: 20px;
+        }
+
+    </style>
+    <script>
+
+
+        {#$.ajax({#}
+        {#    type: 'GET',#}
+        {#    url: '/nick',#}
+        {#    data: {},#}
+        {#    success: function (response) {#}
+        {#        let user = response['users']#}
+        {#        let nick = (user[0]['profile_name'])#}
+        {#        let temp_user = `<span id="name">${nick}</span> 님의 주변 맛집을 찾아보세요 👀`#}
+        {#        $('#user-box').append(temp_user)#}
+        {#    }#}
+        //})
+
+        function ko() {
+            $('#card-box').empty()
+            $.ajax({
+                type: "GET",
+                url: "http://openapi.seoul.go.kr:8088/597943744f6275693131327a416f544c/json/TbVwRestaurants/1/800",
+                data: {},
+                success: function (response) {
+                    let rows = response['TbVwRestaurants']['row']
+                    for (let i = 0; i < rows.length; i++) {
+                        let shop = rows[i]['POST_SJ']
+                        let address = rows[i]['NEW_ADDRESS']
+                        let lang = rows[i]['LANG_CODE_ID']
+
+                        let temp_html = '';
+
+                        if (lang == "ko") {
+                            temp_html = `<div class="card">
+                                            <div class="card-content">
+                                                <div class="media-content">
+                                                    <p class="title is-2" id="shop">${shop}</p>
+                                                    <p class=" is-4">주소</p>
+                                                    <p class="subtitle is-6" id="address">${address}</p>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                        } else {
+                            temp_html = ``;
+                        }
+                        $('#card-box').append(temp_html)
+                    }
+                }
+            })
+        }
+        function en() {
+            $('#card-box').empty()
+            $.ajax({
+                type: "GET",
+                url: "http://openapi.seoul.go.kr:8088/597943744f6275693131327a416f544c/json/TbVwRestaurants/1/800",
+                data: {},
+                success: function (response) {
+                    let rows = response['TbVwRestaurants']['row']
+                    for (let i = 0; i < rows.length; i++) {
+                        let shop = rows[i]['POST_SJ']
+                        let address = rows[i]['NEW_ADDRESS']
+                        let lang = rows[i]['LANG_CODE_ID']
+
+                        let temp_html = '';
+
+                        if (lang == "en") {
+                            temp_html = `<div class="card">
+                                            <div class="card-content">
+                                                <div class="media-content">
+                                                    <p class="title is-2" id="shop">${shop}</p>
+                                                    <p class=" is-4">address</p>
+                                                    <p class="subtitle is-6" id="address">${address}</p>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                        } else {
+                            temp_html = ``;
+                        }
+                        $('#card-box').append(temp_html)
+                    }
+                }
+            })
+        }
+    </script>
+
+</head>
+<body>
+<div class="navbar" role="navigation" style="background-color: #F1EFEC">
+    <div class="navbar-brand">
+        <a class="navbar-item">
+            <div class="title">야무진 한끼</div>
+        </a>
+    </div>
+    <div class="navbar-end">
+        <div class="navbar-item">
+            <button class="button is-small" onclick=location.href='/api/user/logout'>로그아웃</button>
+        </div>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <div class="msg" id="user-box"><span id="name">{{ user_info.username }}</span> 님의 서울 맛집을 찾아보세요 👀</div>
+        <div class="btn-wrap">
+            <button class="button is-link is-inverted" onclick="ko()">한글</button>
+            <button class="button is-link is-inverted" onclick="en()">English</button>
+        </div>
+    </div>
+</section>
+<div class="card-box" id="card-box">
+
+</div>
+</body>
+</html>
